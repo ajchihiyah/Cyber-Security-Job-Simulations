@@ -1,0 +1,44 @@
+import os
+from cryptography.fernet import Fernet
+
+def bruteforce_decryption(encrypted_file_path, wordlist_path):
+   """
+   Attempt to decrypt a file using passwords from a wordlist.
+   
+   Args:
+       encrypted_file_path (str): Path to the encrypted file
+       wordlist_path (str): Path to the wordlist containing potential passwords
+   """
+   # Read the encrypted file
+   with open(encrypted_file_path, 'rb') as f:
+       encrypted_data = f.read()
+   
+   # Read the wordlist
+   with open(wordlist_path, 'r', encoding='latin-1') as f:
+       passwords = [line.strip() for line in f.readlines()]
+   
+   from zipfile import ZipFile
+
+def attempt_extract(zf_handle, password):
+    try:
+        zf_handle.extractall(pwd=password)
+        return True
+    except:
+        return False
+
+def main():
+    print("[+] Beginning bruteforce ")
+    with ZipFile('enc.zip') as zf:
+        with open('rockyou.txt', 'rb') as f:
+            for p in f:
+                password = p.strip()
+                if attempt_extract(zf, password):
+                    print("[+] Correct password: %s" % password)
+                    exit(0)
+                else:
+                    print("[-] Incorrect password: %s" % password)
+
+    print("[+] Password not found in list")
+
+if __name__ == "__main__":
+    main()
